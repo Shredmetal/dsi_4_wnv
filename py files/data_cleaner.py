@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 
+
 class DataCleaner:
     """
     Cleans the data in train.csv provided in GA DSIF Project 4.
@@ -26,7 +27,6 @@ class DataCleaner:
     def __init__(self, dataframe, features):
         self.df = dataframe
         self.features = features
-        self.ohe = None
         self.y = None
         self.X = None
         self.X_train = None
@@ -45,14 +45,10 @@ class DataCleaner:
     def clean(self):
         self.df['PrecipTotal'] = self.df['PrecipTotal'].fillna(0)
         self.df.dropna(axis=0, how="any", inplace=True)
-        class_0_df = self.df[self.df["WnvPresent"] == 0]
-        no_class_0 = class_0_df["WnvPresent"].value_counts().tolist()[0]
-        class_1_df = self.df[self.df["WnvPresent"] == 1]
-        class_1_df = class_1_df.sample(n=no_class_0, replace=True, random_state=42)
-        self.df = pd.concat([class_0_df, class_1_df], axis=0)
         self.X = self.df[self.features]
         self.y = self.df["WnvPresent"]
         self.clean_species()
+        self.clean_month()
         self.clean_wind_dir()
         self.clean_gps_cat()
         self.clean_sprayed()
@@ -74,6 +70,12 @@ class DataCleaner:
         self.clean_windspeed()
         self.clean_pressure()
         self.clean_sealevel()
+
+    def clean_month(self):
+        try:
+            self.X = pd.get_dummies(self.X, columns=["month"], dtype=int, prefix="month", drop_first=True)
+        except KeyError:
+            pass
 
     def clean_species(self):
         try:

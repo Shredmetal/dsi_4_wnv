@@ -1,5 +1,9 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import r2_score
+from imblearn.combine import SMOTETomek
+from imblearn.under_sampling import TomekLinks
+from imblearn.pipeline import Pipeline
+from sklearn.model_selection import GridSearchCV
+
 
 class LogRegBrain:
     """
@@ -16,18 +20,33 @@ class LogRegBrain:
     def __init__(self, X_train, y_train, X_test, y_test):
         self.X_train = X_train
         self.y_train = y_train
-        self.lr = LogisticRegression(solver='lbfgs', max_iter=10000)
-        self.model = self.lr.fit(self.X_train, self.y_train)
+        self.pipe_lr = Pipeline(steps=[
+            ('sampling', SMOTETomek(tomek=TomekLinks(sampling_strategy='majority'))),
+            ('lr', LogisticRegression())
+        ])
+        self.pipe_lr_params = {
+            'sampling__sampling_strategy': [1.0],
+            'sampling__random_state': [42],
+            'lr__C': [1],
+            'lr__max_iter': [5000],
+            'lr__penalty': ['l1', 'l2', None],
+            'lr__random_state': [42],
+            'lr__solver': ['saga'],
+        }
+        self.pipe_lr = GridSearchCV(self.pipe_lr, self.pipe_lr_params, scoring='roc_auc', cv=5, n_jobs=-1)
+        self.pipe_lr.fit(self.X_train, self.y_train)
         self.X_test = X_test
         self.y_test = y_test
-        self.preds = self.model.predict(self.X_test)
-        self.train_score = self.get_train_score()
-        self.test_score = self.get_test_score()
+        self.preds = self.pipe_lr.predict(self.X_test)
+        self.train_roc = self.get_train_roc()
+        self.test_roc = self.get_test_roc()
 
-    # returns r2 score of model based on train data
-    def get_train_score(self):
-        return self.model.score(self.X_train, self.y_train)
+    # returns roc-auc on train
 
-    # returns r2 score of model based on test data
-    def get_test_score(self):
-        return r2_score(self.y_test, self.preds)
+    def get_train_roc(self):
+        return self.pipe_lr.score(self.X_train, self.y_train)
+
+    # returns roc-auc on test
+
+    def get_test_roc(self):
+        return self.pipe_lr.score(self.X_test, self.y_test)

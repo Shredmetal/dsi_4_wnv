@@ -10,52 +10,48 @@ start_time = time.time()
 
 # List of features to consider.
 
-# features_1 = ['Species', 'Latitude', 'Longitude', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb',
-#                   'Heat', 'Cool', 'Sunrise', 'Sunset', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure',
-#                   'SeaLevel', 'gps_cat', 'sprayed']
-#
-# features_2 = ['Species', 'Latitude', 'Longitude', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat',
-#               'Cool', 'Sunrise', 'Sunset', 'PrecipTotal', 'ResultSpeed', 'StnPressure', 'SeaLevel', 'gps_cat',
-#               'sprayed']
-#
-# features_3 = ['Species', 'Latitude', 'Longitude', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat',
-#             'Cool', 'Sunrise', 'Sunset', 'ResultSpeed', 'StnPressure', 'SeaLevel', 'gps_cat', 'sprayed']
-#
-# features_4 = ['Species', 'Latitude', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat', 'Cool',
-#             'Sunrise', 'Sunset', 'ResultSpeed', 'StnPressure', 'SeaLevel', 'gps_cat', 'sprayed']
-#
-# features_5 = ['Latitude', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'Sunrise',
-#             'Sunset', 'ResultSpeed', 'StnPressure', 'SeaLevel', 'gps_cat', 'sprayed']
-#
-# features_6 = ['Latitude', 'NumMosquitos', 'Tmax', 'Tmin', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'Sunrise', 'Sunset',
-#             'ResultSpeed', 'StnPressure', 'SeaLevel', 'gps_cat', 'sprayed']
-#
-# features_7 = ['Latitude', 'NumMosquitos', 'Tmax', 'Tmin', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'Sunrise', 'Sunset',
-#             'ResultSpeed', 'StnPressure', 'gps_cat', 'sprayed']
-#
-# features_8 = ['NumMosquitos', 'Tmax', 'Tmin', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'Sunrise', 'Sunset', 'ResultSpeed',
-#             'StnPressure', 'gps_cat', 'sprayed']
-#
-# features_9 = ['NumMosquitos', 'Tmax', 'Tmin', 'DewPoint', 'Heat', 'Cool', 'Sunrise', 'Sunset', 'ResultSpeed',
-#             'StnPressure', 'gps_cat', 'sprayed']
-#
-# features_10 = ['NumMosquitos', 'Tmax', 'Tmin', 'DewPoint', 'Heat', 'Cool', 'Sunrise', 'Sunset', 'StnPressure',
-#                'gps_cat', 'sprayed']
-#
-# features_11 = ['NumMosquitos', 'Tmax', 'Tmin', 'DewPoint', 'Heat', 'Sunrise', 'Sunset', 'StnPressure', 'gps_cat',
-#             'sprayed']
-#
-# features_12 = ['NumMosquitos', 'Tmax', 'Tmin', 'Heat', 'Sunrise', 'Sunset', 'StnPressure', 'gps_cat', 'sprayed']
-#
-# features_13 = ['NumMosquitos', 'Tmin', 'Heat', 'Sunrise', 'Sunset', 'StnPressure', 'gps_cat', 'sprayed']
-#
-# features_14 = ['NumMosquitos', 'Tmin', 'Heat', 'Sunrise', 'Sunset', 'gps_cat', 'sprayed']
-#
-# features_15 = ['NumMosquitos', 'Tmin', 'Sunrise', 'Sunset', 'gps_cat', 'sprayed']
-#
-# features_16 = ['NumMosquitos', 'Tmin', 'Sunrise', 'Sunset', 'gps_cat']
+features_0 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'PrecipTotal',
+              'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'gps_cat', 'sprayed', 'month']
 
-features = ['NumMosquitos', 'Sunrise', 'Sunset', 'gps_cat']
+features_1 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'PrecipTotal',
+              'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'sprayed', 'month']
+
+features_2 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Cool', 'PrecipTotal',
+              'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'sprayed', 'month']
+
+features_3 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Cool', 'PrecipTotal',
+              'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'month']
+
+features_4 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'WetBulb', 'Cool', 'PrecipTotal', 'ResultSpeed',
+              'ResultDir', 'StnPressure', 'SeaLevel', 'month']
+
+features_5 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'Cool', 'PrecipTotal', 'ResultSpeed', 'ResultDir',
+              'StnPressure', 'SeaLevel', 'month']
+
+features_6 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir',
+              'StnPressure', 'SeaLevel', 'month']
+
+features_7 = ['NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure',
+              'SeaLevel', 'month']
+
+features_8 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel',
+              'month']
+
+features_9 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure', 'month']
+
+features_10 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'month']
+
+features_11 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultDir', 'month']
+
+features_12 = ['NumMosquitos', 'Tavg', 'PrecipTotal', 'ResultDir', 'month']
+
+features_13 = ['NumMosquitos', 'PrecipTotal', 'ResultDir', 'month']
+
+features_14 = ['NumMosquitos', 'ResultDir', 'month']
+
+features = ['NumMosquitos', 'month']
+
+# features = ['NumMosquitos', 'Sunrise', 'Sunset', 'gps_cat']
 
 start_feat_len = len(features)
 
@@ -66,7 +62,7 @@ pd.options.mode.chained_assignment = None
 # Create a series of variables which will be updates / referred to when iterating over all the possible combinations
 # of our features.
 
-best_score = 0.2
+best_roc = 0.5
 best_features = ""
 counter = 0
 score_dict = {}
@@ -77,7 +73,7 @@ combinations = misc_func.combos(features)
 
 # Read in the train.csv and get rid of nan values.
 
-df = pd.read_csv("train_added_cols_1000m.csv", low_memory=False)
+df = pd.read_csv("train_sprayed_month_engineered.csv", low_memory=False)
 
 # Main loop focusing on the RMSE of each linear model created from each combination of features returned by
 # combinations.
@@ -106,14 +102,16 @@ for combination in combinations:
 
     # If test_score is highest seen so far, save the information into a dictionary.
 
-    if brain.test_score > best_score:
-        best_score = brain.test_score
-        score_dict[counter] = {"best_test": brain.test_score,
-                               "best_train": brain.train_score,
-                               "best_features": features_to_use,
-                               "feature_len": len(features_to_use)}
-        print(f"Best test: {brain.test_score}")
-        print(f"Train: {brain.train_score}")
+    if brain.test_roc > best_roc:
+        best_roc = brain.test_roc
+        score_dict[counter] = {
+            "best_test_roc": brain.test_roc,
+            "best_train_roc": brain.train_roc,
+            "best_features": features_to_use,
+            "feature_len": len(features_to_use)
+        }
+        print(f"Test ROC: {brain.test_roc}")
+        print(f"Train ROC: {brain.train_roc}")
         print(f"Features: {features_to_use}")
         print(f"Feat Len: {len(features_to_use)}")
     else:
@@ -125,7 +123,7 @@ for combination in combinations:
 
 # Organise the dictionary of high scores, showing the best test first.
 
-results = OrderedDict(sorted(score_dict.items(), key=lambda x: x[1]['best_test']))
+results = OrderedDict(sorted(score_dict.items(), key=lambda x: x[1]['best_test_roc']))
 
 # Save the dictionary into a JSON to access it easily later.
 

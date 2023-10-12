@@ -1,0 +1,1 @@
+{"0": {"best_test_roc": 0.7817992777559089, "best_train_roc": 0.7571510720013506, "best_features": ["NumMosquitos"], "feature_len": 1}, "2": {"best_test_roc": 0.8440564616885451, "best_train_roc": 0.820396982827345, "best_features": ["NumMosquitos", "month"], "feature_len": 2}}
