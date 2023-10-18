@@ -39,7 +39,7 @@ features_8 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'Res
 
 features_9 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure', 'month']
 
-features_10 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'month']
+features = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'month']
 
 features_11 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultDir', 'month']
 
@@ -49,7 +49,7 @@ features_13 = ['NumMosquitos', 'PrecipTotal', 'ResultDir', 'month']
 
 features_14 = ['NumMosquitos', 'ResultDir', 'month']
 
-features = ['NumMosquitos', 'month']
+features_15 = ['NumMosquitos', 'month']
 
 # features = ['NumMosquitos', 'Sunrise', 'Sunset', 'gps_cat']
 

@@ -2,9 +2,8 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 from sklearn.pipeline import make_pipeline, Pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.model_selection import train_test_split
-
 
 
 class DataCleaner:
@@ -27,6 +26,10 @@ class DataCleaner:
     def __init__(self, dataframe, features):
         self.df = dataframe
         self.features = features
+        self.categorical = ["month", "Species", "ResultDir", "gps_cat", "sprayed", "Sunrise", "Sunset"]
+        self.cat_features = []
+        self.ohe = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
+        self.encoded_features = []
         self.y = None
         self.X = None
         self.X_train = None
@@ -44,16 +47,10 @@ class DataCleaner:
 
     def clean(self):
         self.df['PrecipTotal'] = self.df['PrecipTotal'].fillna(0)
+        self.clean_categorical()
         self.df.dropna(axis=0, how="any", inplace=True)
-        self.X = self.df[self.features]
+        self.X = self.df[self.encoded_features]
         self.y = self.df["WnvPresent"]
-        self.clean_species()
-        self.clean_month()
-        self.clean_wind_dir()
-        self.clean_gps_cat()
-        self.clean_sprayed()
-        self.clean_sunrise()
-        self.clean_sunset()
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X,
                                                                                 self.y,
                                                                                 test_size=0.2,
@@ -71,47 +68,24 @@ class DataCleaner:
         self.clean_pressure()
         self.clean_sealevel()
 
-    def clean_month(self):
-        try:
-            self.X = pd.get_dummies(self.X, columns=["month"], dtype=int, prefix="month", drop_first=True)
-        except KeyError:
-            pass
-
-    def clean_species(self):
-        try:
-            self.X = pd.get_dummies(self.X, columns=["Species"], dtype=int, prefix="species", drop_first=True)
-        except KeyError:
-            pass
-
-    def clean_wind_dir(self):
-        try:
-            self.X = pd.get_dummies(self.X, columns=["ResultDir"], dtype=int, prefix="wind_dir", drop_first=True)
-        except KeyError:
-            pass
-
-    def clean_gps_cat(self):
-        try:
-            self.X = pd.get_dummies(self.X, columns=["gps_cat"], dtype=int, prefix="gps_cat", drop_first=True)
-        except KeyError:
-            pass
-
-    def clean_sprayed(self):
-        try:
-            self.X = pd.get_dummies(self.X, columns=["sprayed"], dtype=int, prefix="sprayed", drop_first=True)
-        except KeyError:
-            pass
-
-    def clean_sunrise(self):
-        try:
-            self.X = pd.get_dummies(self.X, columns=["Sunrise"], dtype=int, prefix="sunrise", drop_first=True)
-        except KeyError:
-            pass
-
-    def clean_sunset(self):
-        try:
-            self.X = pd.get_dummies(self.X, columns=["Sunset"], dtype=int, prefix="Sunset", drop_first=True)
-        except KeyError:
-            pass
+    def clean_categorical(self):
+        for feature in self.features:
+            if feature in self.categorical:
+                self.cat_features.append(feature)
+            else:
+                pass
+        encoded_features = self.ohe.fit_transform(self.df[self.cat_features])
+        encoded_columns = self.ohe.get_feature_names_out(self.cat_features)
+        encoded_df = pd.DataFrame(encoded_features, columns=encoded_columns)
+        df_no_cat = self.df.drop(self.cat_features, axis=1)
+        self.df = pd.concat([df_no_cat, encoded_df], axis=1)
+        for feature in encoded_columns:
+            self.encoded_features.append(feature)
+        for feature in self.features:
+            if feature not in self.categorical:
+                self.encoded_features.append(feature)
+            else:
+                pass
 
     def clean_num_mosquitoes(self):
         try:
