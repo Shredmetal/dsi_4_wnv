@@ -9,11 +9,10 @@ class LogRegBrain:
     """
     This class contains the key operations which each iteration of a combination of features will need to use.
 
-    It creates a linear regression model based on the train and test data created by the DataCleaner class and saves
-    the intercept, coefficient, rmse, train score, test score, and predictions and attributes.
+    It creates a logistic regression model based on the train and test data created by the DataCleaner class and saves
+    the ROC AUC score and predictions.
 
-    This class should have been implemented by inheriting from sk-learn's linear regression using __super__ but this
-    was not done due to time constraints.
+    In fitting the model, it also checks for the best penalty to apply and handles class imbalances using SMOTE.
     """
 
     # Take in the X and y, instantiate sk-learn lr model and fit and save as attr
@@ -28,7 +27,7 @@ class LogRegBrain:
             'sampling__sampling_strategy': [1.0],
             'sampling__random_state': [42],
             'lr__C': [1],
-            'lr__max_iter': [5000],
+            'lr__max_iter': [10000],
             'lr__penalty': ['l1', 'l2', None],
             'lr__random_state': [42],
             'lr__solver': ['saga'],
