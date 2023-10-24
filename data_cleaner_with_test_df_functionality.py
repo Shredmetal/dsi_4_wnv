@@ -10,10 +10,12 @@ class DataCleaner:
     """
     Cleans the data provided in GA DSIF Project 4.
 
-    This class takes in a dataframe and a chosen feature list created from the DSIF Project 4 train.csv file and
-    creates an object with the attributes df, features, X, y, X_train, y_train, X_test, y_test.
+    This class takes in a dataframe and a chosen feature list created from merged csv files from the GA DSIF
+    project 4 assets, and creates an object with the attributes df, features, X, y, X_train, y_train, X_test, y_test.
 
-    These attributes are initialised as None, and are filled by executing the clean() method on the object. The clean
+    If the use of a separate test df is intended, test df may be passed as an optional keyword argument.
+
+    Most attributes are initialised as None, and are filled by executing the clean() method on the object. The clean
     method contains a series of functions which start by removing outliers and populating the X and y attributes
     of the object based on the list of features passed in.
 
@@ -21,6 +23,9 @@ class DataCleaner:
     in X as a result of the features passed in.
 
     Please refer to the comments relating to each function below for a further explanation of what each function does.
+
+    The clean_test method may only be executed after the clean method has been executed as the encoder and scalers
+    must first be fitted on training data.
     """
 
     def __init__(self, dataframe, features, test_df=None):
@@ -32,7 +37,6 @@ class DataCleaner:
         self.ohe = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
         self.encoded_features = []
         self.encoded_test_features = []
-        self.kaggle_test = None
         self.y = None
         self.X = None
         self.X_train = None
@@ -79,6 +83,8 @@ class DataCleaner:
         self.clean_sealevel()
         self.clean_executed = True
 
+    # Refer to the docstring for a fuller explanation of the clean_test method
+
     def clean_test(self):
         if not self.clean_executed:
             print("clean_test() failed. Please run the clean() method on the train dataframe before running c"
@@ -88,7 +94,6 @@ class DataCleaner:
                   "a new DataCleaner object with the appropriate arguments passed.")
         else:
             self.clean_test_categorical()
-            self.test_df = self.test_df[self.encoded_test_features]
             self.clean_test_num_mosquitoes()
             self.clean_test_tmax()
             self.clean_test_tmin()
@@ -101,6 +106,9 @@ class DataCleaner:
             self.clean_test_windspeed()
             self.clean_test_pressure()
             self.clean_test_sealevel()
+
+    # clean_categorical uses sk-learn's one hot encoder to encode categorical features passed in as features to
+    # clean.
 
     def clean_categorical(self):
         for feature in self.features:
@@ -120,6 +128,10 @@ class DataCleaner:
                 self.encoded_features.append(feature)
             else:
                 pass
+
+    # Each of the various clean_xx functions below instantiates an instance of standardscaler and scales the
+    # relevant column of the train dataset. Each instance of standardscaler is saved for subsequent transformation of
+    # the test dataset if required.
 
     def clean_num_mosquitoes(self):
         try:
@@ -229,12 +241,15 @@ class DataCleaner:
         except KeyError:
             pass
 
+    # clean_test_categorical uses sk-learn's one hot encoder instantiated in clean_categorical to transform the
+    # categorical data in the test dataframe (if passed at instantiation of the DataCleaner object).
+
     def clean_test_categorical(self):
         encoded_features = self.ohe.transform(self.test_df[self.cat_features])
         encoded_columns = self.ohe.get_feature_names_out(self.cat_features)
         encoded_df = pd.DataFrame(encoded_features, columns=encoded_columns)
         df_no_cat = self.test_df.drop(self.cat_features, axis=1)
-        self.test_df = pd.concat([df_no_cat, encoded_df], axis=1)
+        self.df = pd.concat([df_no_cat, encoded_df], axis=1)
         for feature in encoded_columns:
             self.encoded_test_features.append(feature)
         for feature in self.features:
@@ -243,110 +258,78 @@ class DataCleaner:
             else:
                 pass
 
+    # Each of the various clean_test_xx functions below uses the instance standardscaler and scales the
+    # relevant column of the train dataset. Each instance of standardscaler is what was previously saved by the clean
+    # method employed above.
+
     def clean_test_num_mosquitoes(self):
-        if "NumMosquitos" in self.features:
-            try:
-                self.test_df["NumMosquitos"] = self.num_mosquito_ss.transform(self.test_df[["NumMosquitos"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["NumMosquitos"] = self.num_mosquito_ss.transform(self.test_df[["NumMosquitos"]])
+        except KeyError:
             pass
 
     def clean_test_tmax(self):
-        if "Tmax" in self.features:
-            try:
-                self.test_df["Tmax"] = self.tmax_ss.transform(self.test_df[["Tmax"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["Tmax"] = self.tmax_ss.transform(self.test_df[["Tmax"]])
+        except KeyError:
             pass
 
     def clean_test_tmin(self):
-        if "Tmin" in self.features:
-            try:
-                self.test_df["Tmin"] = self.tmin_ss.transform(self.test_df[["Tmin"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["Tmin"] = self.tmin_ss.transform(self.test_df[["Tmin"]])
+        except KeyError:
             pass
 
     def clean_test_tavg(self):
-        if "Tavg" in self.features:
-            try:
-                self.test_df["Tavg"] = self.tavg_ss.transform(self.test_df[["Tavg"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["Tavg"] = self.tavg_ss.transform(self.test_df[["Tavg"]])
+        except KeyError:
             pass
 
     def clean_test_dewpoint(self):
-        if "DewPoint" in self.features:
-            try:
-                self.test_df["DewPoint"] = self.dewpoint_ss.transform(self.test_df[["DewPoint"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["DewPoint"] = self.dewpoint_ss.transform(self.test_df[["DewPoint"]])
+        except KeyError:
             pass
 
     def clean_test_wetbulb(self):
-        if "WetBulb" in self.features:
-            try:
-                self.test_df["WetBulb"] = self.wetbulb_ss.transform(self.test_df[["WetBulb"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["WetBulb"] = self.wetbulb_ss.transform(self.test_df[["WetBulb"]])
+        except KeyError:
             pass
 
     def clean_test_heat(self):
-        if "Heat" in self.features:
-            try:
-                self.test_df["Heat"] = self.heat_ss.transform(self.test_df[["Heat"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["Heat"] = self.heat_ss.transform(self.test_df[["Heat"]])
+        except KeyError:
             pass
 
     def clean_test_cool(self):
-        if "Cool" in self.features:
-            try:
-                self.test_df["Cool"] = self.cool_ss.transform(self.test_df[["Cool"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["Cool"] = self.cool_ss.transform(self.test_df[["Cool"]])
+        except KeyError:
             pass
 
     def clean_test_preciptotal(self):
-        if "PrecipTotal" in self.features:
-            try:
-                self.test_df["PrecipTotal"] = self.preciptotal_ss.transform(self.test_df[["PrecipTotal"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["PrecipTotal"] = self.preciptotal_ss.transform(self.test_df[["PrecipTotal"]])
+        except KeyError:
             pass
 
     def clean_test_windspeed(self):
-        if "ResultSpeed" in self.features:
-            try:
-                self.test_df["ResultSpeed"] = self.windspeed_ss.transform(self.test_df[["ResultSpeed"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["ResultSpeed"] = self.windspeed_ss.transform(self.test_df[["ResultSpeed"]])
+        except KeyError:
             pass
 
     def clean_test_pressure(self):
-        if "StnPressure" in self.features:
-            try:
-                self.test_df["StnPressure"] = self.pressure_ss.transform(self.test_df[["StnPressure"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["StnPressure"] = self.pressure_ss.transform(self.test_df[["StnPressure"]])
+        except KeyError:
             pass
 
     def clean_test_sealevel(self):
-        if "SeaLevel" in self.features:
-            try:
-                self.test_df["SeaLevel"] = self.sealevel_ss.transform(self.test_df[["SeaLevel"]])
-            except KeyError:
-                pass
-        else:
+        try:
+            self.test_df["SeaLevel"] = self.sealevel_ss.transform(self.test_df[["SeaLevel"]])
+        except KeyError:
             pass
