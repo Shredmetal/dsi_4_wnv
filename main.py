@@ -1,55 +1,58 @@
 from collections import OrderedDict
 import pandas as pd
 import misc_func
-from data_cleaner import DataCleaner
+from data_cleaner_with_test_df_functionality import DataCleaner
 from log_reg_brain import LogRegBrain
 import json
 import time
 
 start_time = time.time()
 
-# List of features to consider.
+# List of features to consider. Due to time constraints, this was not completely automated. The program was run to
+# eliminate features one at a time. Further development can be done to fully automate this process. Removing one at
+# a time was chosen as the preferred method due to the huge number of potential combinations which would have resulted
+# from simply taking every possible combination.
 
-features_0 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'PrecipTotal',
+features = ['Species', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'PrecipTotal',
               'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'gps_cat', 'sprayed', 'month']
 
-features_1 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'PrecipTotal',
-              'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'sprayed', 'month']
-
-features_2 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Cool', 'PrecipTotal',
-              'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'sprayed', 'month']
-
-features_3 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Cool', 'PrecipTotal',
-              'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'month']
-
-features_4 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'WetBulb', 'Cool', 'PrecipTotal', 'ResultSpeed',
-              'ResultDir', 'StnPressure', 'SeaLevel', 'month']
-
-features_5 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'Cool', 'PrecipTotal', 'ResultSpeed', 'ResultDir',
-              'StnPressure', 'SeaLevel', 'month']
-
-features_6 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir',
-              'StnPressure', 'SeaLevel', 'month']
-
-features_7 = ['NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure',
-              'SeaLevel', 'month']
-
-features_8 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel',
-              'month']
-
-features_9 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure', 'month']
-
-features = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'month']
-
-features_11 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultDir', 'month']
-
-features_12 = ['NumMosquitos', 'Tavg', 'PrecipTotal', 'ResultDir', 'month']
-
-features_13 = ['NumMosquitos', 'PrecipTotal', 'ResultDir', 'month']
-
-features_14 = ['NumMosquitos', 'ResultDir', 'month']
-
-features_15 = ['NumMosquitos', 'month']
+# features_1 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Heat', 'Cool', 'PrecipTotal',
+#               'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'sprayed', 'month']
+#
+# features_2 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Cool', 'PrecipTotal',
+#               'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'sprayed', 'month']
+#
+# features_3 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'DewPoint', 'WetBulb', 'Cool', 'PrecipTotal',
+#               'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel', 'month']
+#
+# features_4 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'WetBulb', 'Cool', 'PrecipTotal', 'ResultSpeed',
+#               'ResultDir', 'StnPressure', 'SeaLevel', 'month']
+#
+# features_5 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'Cool', 'PrecipTotal', 'ResultSpeed', 'ResultDir',
+#               'StnPressure', 'SeaLevel', 'month']
+#
+# features_6 = ['Species', 'NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir',
+#               'StnPressure', 'SeaLevel', 'month']
+#
+# features_7 = ['NumMosquitos', 'Tmax', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure',
+#               'SeaLevel', 'month']
+#
+# features_8 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure', 'SeaLevel',
+#               'month']
+#
+# features_9 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'StnPressure', 'month']
+#
+# features_10 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultSpeed', 'ResultDir', 'month']
+#
+# features_11 = ['NumMosquitos', 'Tmin', 'Tavg', 'PrecipTotal', 'ResultDir', 'month']
+#
+# features_12 = ['NumMosquitos', 'Tavg', 'PrecipTotal', 'ResultDir', 'month']
+#
+# features_13 = ['NumMosquitos', 'PrecipTotal', 'ResultDir', 'month']
+#
+# features_14 = ['NumMosquitos', 'ResultDir', 'month']
+#
+# features_15 = ['NumMosquitos', 'month']
 
 # features = ['NumMosquitos', 'Sunrise', 'Sunset', 'gps_cat']
 
