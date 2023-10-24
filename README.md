@@ -1,46 +1,172 @@
-[Kaggle Scripts](https://www.kaggle.com/c/predict-west-nile-virus/scripts) are a great way to share models, visualizations, or analyses with other Kagglers.
+# Problem Statement
 
-You can run scripts right on Kaggle without ever downloading the data, but for iterating on your script, you'll probably find it's easier to work locally (and then copy your script to Kaggle for sharing).
+## PROBLEM:
 
-## Directory Structure
+The west nile virus is a mosquito-borne disease plaguing the Chicago area. It results in multiple costs including but not limited to: 
 
-It helps to set up the same directory structure that we have running on Kaggle. (Then you don't have to change any paths when copying the script to Kaggle.) [This file](https://www.kaggle.com/c/predict-west-nile-virus/download/west_nile.zip) sets up the directory structure (including all of the competition data):
+1. Medical treatment required;
 
-- `input`: this contains all of the data files for the competition
-- `working`: on Kaggle, scripts run with this as the working directory. We recommend you do the same thing locally to avoid mixing output files with source files.
-- `src`: Source scripts. We've provided some examples to get you started.
+2. Lost productivity as people miss work due to being ill; and
 
-## Python and R Environments
+3. Pain and suffering of people afflicted by it.
 
-We have Github repositories showing our [R](https://github.com/Kaggle/docker-r) and [Python](https://github.com/Kaggle/docker-python) environments are set up. We plan to make it very easy to work with the exact same environment locally, but at this point it may be easier to work with whatever environment you already have. (If you use Python or R packages locally that turn out to be missing in our online environment, we can probably add them for you.)
+There may be a way to reduce the costs inflicted by the virus by targeting mosquito populations with pesticides or otherwise. However, we should target mosquito populations when west nile virus is most prevalent.
 
-Do make sure you're using Python 3, though. 
+## OBJECTIVES:
 
-[Conda](http://conda.pydata.org/docs/intro.html) is great for managing Python environments.
+1. Build a model which predicts when west nile virus is present in mosquito populations.
 
-## RMarkdown
+2. If the model predicts the presence of west nile virus, action can be taken to reduce or exterminate mosquito populations.
 
-If `src/measurement_locations.Rmd` is the RMarkdown file you want to render as HTML, you can say:
+## SCOPE:
 
-`Rscript render_rmarkdown.R src/measurement_locations.Rmd`
+1. Use the data to feed various machine learning models to achieve the objectives.
 
-Then open `working/output.html` to view the results!
+2. Select the model with the best ROC-AUC score.
 
-## Command Line Execution
+## DATA:
 
-In your shell, you can navigate to the `working` directory, and run a script by saying:
+1. Mosquito trap data containing whether or not west nile virus was found, along with coordinates.
 
-`Rscript ../src/measurement_locations.R`
+2. Data as to where and when pesticide spraying took place.
 
-or
+3. Weather data.
 
-`python ../src/measurement_locations.py`
+## METHODS AND TOOLS:
 
-# R
+1. Logistic Regression.
 
-We all love RStudio for interactive work. If you open a script in `src` in RStudio, your working directory will probably default to `src`. So we've included a line in the example that switches you to `working` at the top of the script.
+2. Support Vector Classifier.
+
+3. Random Forest.
+
+4. Neural Network.
+
+## SUCCESS METRICS:
+
+1. ROC-AUC Score.
+
+# Data Dictionary
+
+| Field                     | Description                                                                                                        | Data Type    |
+|---------------------------|--------------------------------------------------------------------------------------------------------------------|--------------|
+| Station                   | Weather station index (1 or 2).                                                                                    | int64        |
+| Date                      | Date of the weather record.                                                                                        | object       |
+| Tmax                      | Maximum temperature for the day.                                                                                   | int64        |
+| Tmin                      | Minimum temperature for the day.                                                                                   | int64        |
+| Tavg                      | Average temperature.                                                                                               | object       |
+| Depart                    | Temperature departure from the normal.                                                                             | object       |
+| DewPoint                  | Dew point temperature.                                                                                             | int64        |
+| WetBulb                   | Wet bulb temperature.                                                                                              | object       |
+| Heat                      | Heating degree days.                                                                                               | object       |
+| Cool                      | Cooling degree days.                                                                                               | object       |
+| CodeSum                   | Weather phenomena code summary.                                                                                    | object       |
+| Depth                     | Snow depth.                                                                                                        | object       |
+| Water1                    | Water equivalent measure.                                                                                          | object       |
+| SnowFall                  | Snowfall measure.                                                                                                  | object       |
+| PrecipTotal               | Total precipitation.                                                                                               | object       |
+| StnPressure               | Station pressure.                                                                                                  | object       |
+| SeaLevel                  | Sea-level pressure.                                                                                                | object       |
+| ResultSpeed               | Wind speed.                                                                                                        | float64      |
+| ResultDir                 | Wind direction.                                                                                                    | int64        |
+| AvgSpeed                  | Average wind speed.                                                                                                | object       |
+| Id                        | The ID of the record.                                                                                              | Not Available|
+| Date                      | Date that the WNV test is performed.                                                                               | object       |
+| Address                   | Approximate address of the location of the trap (used for GeoCoder).                                               | object       |
+| Species                   | The species of mosquitoes.                                                                                         | object       |
+| Block                     | Block number of address.                                                                                           | int64        |
+| Street                    | Street name.                                                                                                       | object       |
+| Trap                      | ID of the trap.                                                                                                    | object       |
+| AddressNumberAndStreet    | Approximate address returned from GeoCoder.                                                                        | object       |
+| Latitude                  | Latitude of mosquito trap.                                                                                         | float64      |
+| Longitude                 | Longitude of mosquito trap.                                                                                        | float64      |
+| Latitude (Weather)        | Latitude returned from GeoCoder for weather data.                                                                  | float64      |
+| Longitude (Weather)       | Longitude returned from GeoCoder for weather data.                                                                 | float64      |
+| AddressAccuracy           | Accuracy returned from GeoCoder.                                                                                   | int64        |
+| NumMosquitos              | Number of mosquitoes caught in this trap.                                                                          | int64        |
+| WnvPresent                | Whether West Nile Virus was present in these mosquitoes. 1 means WNV is present, and 0 means not present.          | int64        |
+| Date (Spray)              | The date of the spray.                                                                                             | object       |
+| Time                      | The time of the spray.                                                                                             | object       |
+| Latitude (Spray)          | The Latitude of the spray.                                                                                         | float64      |
+| Longitude (Spray)         | The Longitude of the spray.                                                                                        | float64      |
+
+# Requirements
 
 
-# Python
+### Technical Report (Data Wrangling) Notebook requirements:
 
-While we don't support iPython Notebooks in Scripts at this point, we know many people like to work in notebooks interactively. We've included an example notebook. The comments indicate the couple small changes required for transitioning to a script.
+imbalanced-learn==0.11.0
+
+imblearn==0.0
+
+keras==2.14.0
+
+keras-core==0.1.7
+
+numpy==1.25.2
+
+pandas==2.1.0
+
+python-dateutil==2.8.2
+
+pytz==2023.3.post1
+
+scikit-learn==1.3.0
+
+### Technical Report (EDA) Notebook requirements:
+
+branca              0.6.0
+
+folium              0.14.0
+
+matplotlib          3.7.1
+
+mpl_toolkits        NA
+
+numpy               1.24.3
+
+pandas              1.5.3
+
+scipy               1.10.1
+
+seaborn             0.12.2
+
+session_info        1.0.0
+
+sklearn             1.3.0
+
+### Technical Report (Modelling) Notebook requirements:
+
+### .py files requirements:
+
+imbalanced-learn==0.11.0
+
+imblearn==0.0
+
+joblib==1.3.2
+
+numpy==1.26.0
+
+pandas==2.1.1
+
+python-dateutil==2.8.2
+
+pytz==2023.3.post1
+
+scikit-learn==1.3.1
+
+scipy==1.11.3
+
+six==1.16.0
+
+threadpoolctl==3.2.0
+
+tzdata==2023.3
+
+### Data Dictionary
+
+# Modelling Conclusions
+
+### Model Performance and Time Taken
+
+# Recommendations
