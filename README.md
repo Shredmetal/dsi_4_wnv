@@ -42,6 +42,8 @@ There may be a way to reduce the costs inflicted by the virus by targeting mosqu
 
 4. Neural Network.
 
+5. XGboost
+
 ## SUCCESS METRICS:
 
 1. ROC-AUC Score.
