@@ -137,6 +137,78 @@ sklearn             1.3.0
 
 ### Technical Report (Modelling) Notebook requirements:
 
+anyio               NA
+asttokens           NA
+attr                23.1.0
+babel               2.11.0
+backcall            0.2.0
+brotli              NA
+certifi             2023.07.22
+charset_normalizer  2.0.4
+colorama            0.4.6
+comm                0.1.2
+cython_runtime      NA
+dateutil            2.8.2
+debugpy             1.6.7
+decorator           5.1.1
+entrypoints         0.4
+executing           0.8.3
+fastjsonschema      NA
+idna                3.4
+ipykernel           6.25.0
+ipython_genutils    0.2.0
+jedi                0.18.1
+jinja2              3.1.2
+json5               NA
+jsonschema          4.17.3
+jupyter_server      1.23.4
+jupyterlab_server   2.22.0
+markupsafe          2.1.1
+nbformat            5.9.2
+numpy               1.26.1
+packaging           23.1
+parso               0.8.3
+pickleshare         0.7.5
+pkg_resources       NA
+platformdirs        3.10.0
+prometheus_client   NA
+prompt_toolkit      3.0.36
+psutil              5.9.0
+pure_eval           0.2.2
+pvectorc            NA
+pydev_ipython       NA
+pydevconsole        NA
+pydevd              2.9.5
+pydevd_file_utils   NA
+pydevd_plugins      NA
+pydevd_tracing      NA
+pygments            2.15.1
+pyrsistent          NA
+pythoncom           NA
+pywin32_system32    NA
+pywintypes          NA
+requests            2.31.0
+rfc3339_validator   0.1.4
+rfc3986_validator   0.1.1
+send2trash          NA
+six                 1.16.0
+sniffio             1.2.0
+socks               1.7.1
+stack_data          0.2.0
+terminado           0.17.1
+tornado             6.3.3
+traitlets           5.7.1
+urllib3             1.26.16
+wcwidth             0.2.5
+websocket           0.58.0
+win32api            NA
+win32com            NA
+win32con            NA
+win32trace          NA
+winerror            NA
+winpty              2.0.10
+zmq                 23.2.0
+
 ### .py files requirements:
 
 imbalanced-learn==0.11.0
@@ -163,10 +235,79 @@ threadpoolctl==3.2.0
 
 tzdata==2023.3
 
-### Data Dictionary
-
-# Modelling Conclusions
-
 ### Model Performance and Time Taken
 
+| Model for NumMoSquitos     | WnV Model                 | AUC (Train Data Set) | Kaggle Score | Best Params WNV Model                                                                                                                         |
+|----------------------------|---------------------------|----------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Neural Net Regression      | Neural Net Classifier     | 0.87                 | 0.54         | N.A                                                                                                                                           |
+| Neural Net Regression      | RandomForestClassifier    | 0.86                 | 0.56         | rc__max_depth': None, 'rc__max_samples': None, 'rc__min_samples_leaf': 5, 'rc__min_samples_split': 10, 'rc__n_estimators': 100                |
+| Neural Net Regression      | Support Vector Classifier | 0.86                 | 0.51         | 'svc__C': 100, 'svc__gamma': 'scale', 'svc__kernel': 'rbf'                                                                                    |
+| Neural Net Regression      | Logistic Regression       | 0.87                 | 0.54         | 'lr__C': 100, 'lr__l1_ratio': 0.75, 'lr__penalty': 'l2'                                                                                       |
+| Neural Net Regression      | XGB Classifier            | 0.87                 | 0.57         | 'xgc__booster': 'gbtree', 'xgc__gamma': 0, 'xgc__learning_rate': 0.1, 'xgc__n_estimators': 500, 'xgc__reg_alpha': 1, 'xgc__reg_lambda': 1     |
+| RandomForestRegression     | Neural Net Classifier     | 0.87                 | 0.53         | N.A                                                                                                                                           |
+| RandomForestRegression     | RandomForestClassifier    | 0.87                 | 0.56         | 'rc__max_depth': None, 'rc__max_samples': None, 'rc__min_samples_leaf': 5, 'rc__min_samples_split': 10, 'rc__n_estimators': 100               |
+| RandomForestRegression     | Support Vector Classifier | 0.86                 | 0.53         | 'svc__C': 100, 'svc__gamma': 'scale', 'svc__kernel': 'rbf'                                                                                    |
+| RandomForestRegression     | Logistic Regression       | 0.87                 | 0.55         | 'lr__C': 100, 'lr__l1_ratio': 0.25, 'lr__penalty': 'l2'                                                                                       |
+| **RandomForestRegression** | **XGB Classifier**        | **0.87**             | **0.59**     | **'xgc__booster': 'gbtree', 'xgc__gamma': 0, 'xgc__learning_rate': 0.1, 'xgc__n_estimators': 500, 'xgc__reg_alpha': 1, 'xgc__reg_lambda': 1** |
+| XGB Regression             | Neural Net Classifier     | 0.87                 | 0.53         | N.A                                                                                                                                           |
+| XGB Regression             | RandomForestClassifier    | 0.87                 | 0.56         | 'rc__max_depth': None, 'rc__max_samples': None, 'rc__min_samples_leaf': 5, 'rc__min_samples_split': 10, 'rc__n_estimators': 300               |
+| XGB Regression             | Support Vector Classifier | 0.86                 | 0.52         | 'svc__C': 100, 'svc__gamma': 'scale', 'svc__kernel': 'rbf'                                                                                    |
+| XGB Regression             | Logistic Regression       | 0.87                 | 0.54         | 'lr__C': 100, 'lr__l1_ratio': 0.25, 'lr__penalty': 'elasticnet'                                                                               |
+| XGB Regression             | XGB Classifier            | 0.87                 | 0.52         | 'xgc__booster': 'gbtree', 'xgc__gamma': 0, 'xgc__learning_rate': 0.1, 'xgc__n_estimators': 500, 'xgc__reg_alpha': 1, 'xgc__reg_lambda': 1     |
+
 # Recommendations
+
+### Conclusion
+    
+Based on historical data (year 2007, 2009, 2011 and 2013) , the presence of WNV virus is based on these factors:
+
+* Numbers of mosquitoes.
+* Temperature and humidity is higher than normal days.
+* Lower average wind speed.
+* During the months from May to August.
+* Negligence of spraying at some of the areas with WNV presence.
+* Mosquitoes species belonging to Culex Pipiens and Culex Restuans.
+
+
+The top locations with highest WNV presence of at least 14 instances are:
+
+* ORD Terminal 5, O'Hare International Airport, Chicago, IL 60666, USA
+* South Doty Avenue, Chicago, IL, USA 
+* 4100 North Oak Park Avenue, Chicago, IL 60634, USA
+* South Stony Island Avenue, Chicago, IL, USA
+* 4600 Milwaukee Avenue, Chicago, IL 60630, USA
+
+The top traps located that has high mosquitoes count and WNV presence are T900 and T115.
+
+Thunderstorms and mist might contribute to no. of WNV cases.
+
+Limitations:
+* The sprayed data is not consistent.
+* Unavailability of manpower cost and data for cost analysis.
+
+Based on the reports/articles found online, the total material cost for Zenivex is **293,415.87 USD**.
+
+The total cost for treating WNV in Chicago is estimated at **517,502.67 USD**. Also, people who have been infected with West Nile Virus (WNV) may experience a reduction in their income, resulting in a cumulative income loss of **166,355.09 USD** in the city.
+The total estimated loss in Chicago is **683,857.76 USD**.
+
+
+However, there are other factors that may further contribute to the city's economy negatively such as lower workplace productivity, reduced tourism and increase of moving to other cities due to the presence of WNV.
+
+Even though there are other factors such as manpower cost is not included in the cost analysis due to the unavailbilty of data, the officials should not underestimate the long term negative effect for not spraying insecticide. Hence, the efforts for spraying the city should not be stopped.
+
+
+### Recomendation
+
+* To use data driven approach to reduce WNV by implementing preventive measures (refer to the first two points below).
+
+* The best period for spraying insecticide is during the month of July to August as these two months are the peak of the mosquitoes numbers.
+
+* Ensure thorough spraying, as there are regions with the presence of West Nile Virus that have not been treated with spray and we do not assume that the pressence of WNV is not caused by mosquitoes.
+
+* The officials should also be cautious that the wrong concentration amount of insecticides may cause the mosquitoes to grow resistance ([*source*](https://www.vox.com/health/23814358/west-nile-virus-symptoms-mosquito-repellant-disease-bite-insecticide-resistance)).
+
+* Residents to wear loose-fitting clothes that can cover arms and legs during the month of July and August([*source*](https://www.cdc.gov/westnile/prevention/index.html)).
+
+* Educate the residents to prevent mosquitoes breeding, such as draining water out from anything that can collect rainwater.
+
+* Enforce the laws and regulations for mosquitoes breeding.
