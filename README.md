@@ -235,7 +235,7 @@ threadpoolctl==3.2.0
 
 tzdata==2023.3
 
-### Model Performance and Time Taken
+### Model Performance
 
 | Model for NumMoSquitos     | WnV Model                 | AUC (Train Data Set) | Kaggle Score | Best Params WNV Model                                                                                                                         |
 |----------------------------|---------------------------|----------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
